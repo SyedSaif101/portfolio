@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syed Saif Gillani — Space Science, ML & Security</title>
+<meta name="description" content="Portfolio of Syed Saif Gillani — computational astrophysics, machine learning, cybersecurity, and automation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14;
+    --surface: #10151F;
+    --surface-2: #161C29;
+    --line: #232B3B;
+    --text: #E8E6DF;
+    --text-muted: #8B93A3;
+    --violet: #9C8FF0;
+    --teal: #4FD1C5;
+    --amber: #E8A855;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  ::selection{background:var(--violet); color:var(--bg);}
+
+  /* ---------- Layout helpers ---------- */
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  section{position:relative;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:22px;height:1px;
+    background:var(--teal);
+    display:inline-block;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter:blur(10px);
+    background:rgba(10,14,20,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:18px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-logo{font-family:'JetBrains Mono'; font-size:14px; letter-spacing:0.05em; color:var(--text);}
+  .nav-logo span{color:var(--violet);}
+  .nav-links{display:flex; gap:28px; font-size:13px; font-family:'JetBrains Mono';}
+  .nav-links a{color:var(--text-muted); transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:focus-visible, a:focus-visible, button:focus-visible{outline:2px solid var(--teal); outline-offset:3px;}
+  @media(max-width:640px){ .nav-links{display:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:90px; padding-bottom:60px;
+    position:relative;
+  }
+  .hero .wrap{position:relative; z-index:2;}
+  .hero-kicker{
+    font-family:'JetBrains Mono'; font-size:13px; color:var(--text-muted);
+    letter-spacing:0.08em; margin-bottom:22px; text-transform:uppercase;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 4.6rem);
+    line-height:1.04;
+    max-width:14ch;
+    color:var(--text);
+  }
+  .hero h1 em{
+    font-style:italic; font-weight:500; color:var(--violet);
+  }
+  .hero p{
+    margin-top:26px;
+    max-width:52ch;
+    color:var(--text-muted);
+    font-size:1.05rem;
+  }
+  .hero-cta{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono'; font-size:13px;
+    padding:13px 22px; border-radius:2px;
+    border:1px solid var(--line);
+    transition:all .2s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--text); color:var(--bg); border-color:var(--text);}
+  .btn-primary:hover{background:var(--violet); border-color:var(--violet);}
+  .btn-ghost:hover{border-color:var(--text-muted); color:var(--text);}
+
+  /* Spectral signature graphic */
+  .spectrum-wrap{
+    position:absolute; inset:0; z-index:1;
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0.9;
+    pointer-events:none;
+  }
+  svg.hero-spectrum{width:100%; max-width:1080px; height:38svh;}
+  .spectral-line{
+    fill:none; stroke-width:1.6;
+    stroke-dasharray:2200;
+    stroke-dashoffset:2200;
+    animation:draw 2.6s cubic-bezier(.16,.8,.3,1) forwards;
+  }
+  @keyframes draw{ to{stroke-dashoffset:0;} }
+  .peak-label{ font-family:'JetBrains Mono'; font-size:9px; fill:var(--text-muted); opacity:0; animation:fadein 1s ease forwards; animation-delay:2.2s;}
+  @keyframes fadein{ to{opacity:0.8;} }
+
+  /* Divider strip used between sections — encodes a spectrum readout */
+  .divider{
+    height:64px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; overflow:hidden;
+    background:var(--surface);
+  }
+  .divider-track{ display:flex; gap:3px; padding:0 32px; width:100%; }
+  .divider-bar{ width:3px; background:var(--line); flex-shrink:0; }
+
+  /* ---------- Section generic ---------- */
+  .section{padding:110px 0;}
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.6rem); }
+  .section-head p{ color:var(--text-muted); margin-top:14px; font-size:1rem; }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid; grid-template-columns: 1fr 1.3fr; gap:64px;
+  }
+  @media(max-width:820px){ .about-grid{grid-template-columns:1fr;} }
+  .about-stats{ display:flex; flex-direction:column; gap:26px; }
+  .stat{ border-left:2px solid var(--violet); padding-left:18px; }
+  .stat .num{ font-family:'Fraunces'; font-size:2rem; color:var(--text); display:block; }
+  .stat .label{ font-family:'JetBrains Mono'; font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em;}
+  .about-body p{ margin-bottom:18px; color:var(--text-muted); }
+  .about-body strong{ color:var(--text); font-weight:600; }
+
+  /* ---------- Work / research cards ---------- */
+  .track-tabs{
+    display:flex; gap:8px; margin-bottom:44px; flex-wrap:wrap;
+  }
+  .tab{
+    font-family:'JetBrains Mono'; font-size:12.5px;
+    padding:9px 16px; border:1px solid var(--line); border-radius:20px;
+    color:var(--text-muted); cursor:pointer; transition:all .2s; background:transparent;
+  }
+  .tab.active{ color:var(--bg); background:var(--teal); border-color:var(--teal); }
+  .tab:hover:not(.active){ border-color:var(--text-muted); color:var(--text); }
+
+  .card-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  @media(max-width:760px){ .card-grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--surface); border:1px solid var(--line);
+    padding:28px; border-radius:4px;
+    transition:border-color .25s, transform .25s;
+  }
+  .card:hover{ border-color:var(--violet); transform:translateY(-3px); }
+  .card-tag{
+    font-family:'JetBrains Mono'; font-size:10.5px; color:var(--amber);
+    text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; display:block;
+  }
+  .card h3{ font-size:1.15rem; font-weight:600; margin-bottom:10px; color:var(--text); font-family:'Inter'; }
+  .card p{ color:var(--text-muted); font-size:.92rem; margin-bottom:14px; }
+  .card ul{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; }
+  .card ul li{
+    font-family:'JetBrains Mono'; font-size:10.5px; color:var(--text-muted);
+    border:1px solid var(--line); padding:4px 9px; border-radius:20px;
+  }
+  .track-panel{ display:none; }
+  .track-panel.active{ display:block; animation:fadeup .4s ease; }
+  @keyframes fadeup{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Certifications ---------- */
+  .cert-table{ width:100%; border-collapse:collapse; font-family:'JetBrains Mono'; font-size:12.5px; }
+  .cert-table tr{ border-bottom:1px solid var(--line); }
+  .cert-table td{ padding:13px 10px; color:var(--text-muted); vertical-align:top; }
+  .cert-table td.cname{ color:var(--text); font-family:'Inter'; font-size:13.5px; font-weight:500; }
+  .cert-table td.cdate{ white-space:nowrap; color:var(--teal); text-align:right; }
+  .cert-table tr:hover td{ color:var(--text); }
+  .cert-more{ margin-top:22px; color:var(--text-muted); font-size:13px; }
+
+  /* ---------- Contact ---------- */
+  .contact-inner{
+    display:flex; flex-direction:column; align-items:flex-start; gap:28px;
+  }
+  .contact-links{ display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:32px;
+    text-align:center;
+    font-family:'JetBrains Mono'; font-size:11.5px; color:var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">SSG<span>.</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="spectrum-wrap">
+    <svg class="hero-spectrum" viewBox="0 0 1080 340" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+      <path class="spectral-line" stroke="#232B3B" d="M0,300 L1080,300"/>
+      <path class="spectral-line" stroke="#9C8FF0" style="animation-delay:.1s"
+        d="M0,300 L120,298 L200,296 L260,180 L280,60 L300,180 L340,296 L460,294 L520,296 L560,150 L580,40 L600,150 L640,296 L760,292 L820,290 L850,200 L870,90 L890,200 L920,290 L1080,286"/>
+      <text class="peak-label" x="270" y="52" text-anchor="middle">Hα</text>
+      <text class="peak-label" x="570" y="32" text-anchor="middle" style="animation-delay:2.35s">[OIII]</text>
+      <text class="peak-label" x="860" y="82" text-anchor="middle" style="animation-delay:2.45s">Hβ</text>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-kicker">Syed Saif Gillani — Islamabad, Pakistan</div>
+    <h1>Reading signal<br>out of <em>noise.</em></h1>
+    <p>Space science undergraduate working across computational astrophysics, machine learning, and cybersecurity — classifying galaxies from their spectra, building security tooling, and automating the boring parts in between.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">See the work →</a>
+      <a href="mailto:saifgillani3@gmail.com" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<div class="divider" aria-hidden="true">
+  <div class="divider-track" id="divider1"></div>
+</div>
+
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div class="about-stats">
+      <div class="stat"><span class="num">3.38</span><span class="label">CGPA · B.S. Space Science</span></div>
+      <div class="stat"><span class="num">25+</span><span class="label">Certifications completed</span></div>
+      <div class="stat"><span class="num">1 yr+</span><span class="label">AGN research at SARL–NCGSA</span></div>
+    </div>
+    <div class="about-body">
+      <div class="eyebrow">About</div>
+      <p>I'm a final-year <strong>Space Science</strong> student at the Institute of Space Technology, Islamabad, working as a <strong>Research Intern</strong> at the Space and Astrophysics Research Lab, where I study SDSS spectral data to classify AGN and other celestial objects using deep learning.</p>
+      <p>In parallel, I lead the <strong>Quantum AI team</strong> at Google Developer Group on Campus, hold Google's Cybersecurity Professional Certificate, and build automation tooling — from n8n workflows to Python pipelines — that removes repetitive work from research and everyday tasks.</p>
+      <p>I'm also building a freelance track to work with international clients, and tutor mathematics and physics on the side.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <div class="divider-track" id="divider2"></div>
+</div>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Selected work</div>
+      <h2>Three tracks, one method</h2>
+      <p>Filter by domain — each project follows the same approach: understand the system, build the pipeline, ship something that works.</p>
+    </div>
+
+    <div class="track-tabs" role="tablist">
+      <button class="tab active" data-track="astro" role="tab" aria-selected="true">Astrophysics & ML</button>
+      <button class="tab" data-track="security" role="tab" aria-selected="false">Cybersecurity</button>
+      <button class="tab" data-track="automation" role="tab" aria-selected="false">Automation & Systems</button>
+    </div>
+
+    <div class="track-panel active" data-panel="astro">
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-tag">Research · SARL–NCGSA</span>
+          <h3>AGN Classification from SDSS Spectra</h3>
+          <p>Extracted and processed spectral data from SDSS Data Release 18 to classify AGN and other celestial bodies. Built cleaning pipelines and reviewed deep learning classification literature to guide model design.</p>
+          <ul><li>Python</li><li>Pandas</li><li>Scikit-Learn</li><li>SDSS DR18</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Report</span>
+          <h3>Dark Matter & Dark Energy</h3>
+          <p>A research report reviewing current theory and observational evidence on dark matter and dark energy, and their role in cosmic structure and expansion.</p>
+          <ul><li>Cosmology</li><li>Literature Review</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="track-panel" data-panel="security">
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-tag">Google Cloud KMS</span>
+          <h3>Asymmetric Encryption — Sign & Verify</h3>
+          <p>Generated an RSA key pair in Google Cloud KMS to digitally sign files, then verified signatures with the public key to demonstrate tamper detection and data integrity.</p>
+          <ul><li>OpenSSL</li><li>Google Cloud KMS</li><li>RSA</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Design exercise</span>
+          <h3>Security Infrastructure for an E-Commerce Company</h3>
+          <p>Designed a full security plan covering MFA, RBAC, VPN remote access, firewall rules, VLAN segmentation, endpoint protection, and IDS — aligned with PCI DSS and GDPR.</p>
+          <ul><li>Network Security</li><li>PCI DSS</li><li>GDPR</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Pentest</span>
+          <h3>OWASP Juice Shop Penetration Test</h3>
+          <p>Hands-on penetration test against the intentionally vulnerable OWASP Juice Shop application, practicing common web exploitation techniques.</p>
+          <ul><li>Web AppSec</li><li>OWASP</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Coursework</span>
+          <h3>Linux Shell Scripting & Filesystem Administration</h3>
+          <p>Wrote and debugged Bash scripts for system administration workflows, and worked hands-on with Linux file permissions, directory structures, and symbolic/hard links.</p>
+          <ul><li>Bash</li><li>Linux</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="track-panel" data-panel="automation">
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-tag">Leadership</span>
+          <h3>Team Lead, Google Quantum AI — GDG IST</h3>
+          <p>Lead and coordinate the Quantum AI team: defining project milestones, mentoring members through quantum computing and AI fundamentals, and running candidate interviews.</p>
+          <ul><li>Quantum Computing</li><li>Mentorship</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Workflow</span>
+          <h3>n8n Email Automation</h3>
+          <p>Built an automated email workflow in n8n to remove manual, repetitive steps from a recurring process.</p>
+          <ul><li>n8n</li><li>Automation</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Applied AI</span>
+          <h3>Gemini API Chatbot</h3>
+          <p>Integrated the Gemini API to build a working conversational chatbot from scratch.</p>
+          <ul><li>Gemini API</li><li>Python</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Hardware</span>
+          <h3>Bluetooth-Controlled RC Car</h3>
+          <p>Built an Arduino RC car using an L298N motor driver and HC-05 Bluetooth module, tracing and resolving TXD/RXD wiring faults along the way.</p>
+          <ul><li>Arduino</li><li>Embedded</li></ul>
+        </div>
+        <div class="card">
+          <span class="card-tag">Database</span>
+          <h3>Census Management System</h3>
+          <p>Designed a full MySQL database for a census system — schema, 90+ seed records, 20 queries — with accompanying documentation and report.</p>
+          <ul><li>MySQL</li><li>Database Design</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <div class="divider-track" id="divider3"></div>
+</div>
+
+<section class="section" id="credentials">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Credentials</div>
+      <h2>25+ certifications, one throughline</h2>
+      <p>Cybersecurity, Python, and quantum/AI fundamentals — mostly Google, Coursera, and university-issued, completed through 2025.</p>
+    </div>
+    <table class="cert-table">
+      <tr><td class="cname">Google Cybersecurity Professional Certificate</td><td>Linux, SIEM, SQL, Python, Incident Response</td><td class="cdate">Jul 2025</td></tr>
+      <tr><td class="cname">EC-Council Ethical Hacking Essentials (EHE)</td><td>Threat Detection</td><td class="cdate">Jun 2025</td></tr>
+      <tr><td class="cname">IT Security: Defense Against the Digital Dark Arts</td><td>Malware Detection, SIEM</td><td class="cdate">Sep 2025</td></tr>
+      <tr><td class="cname">Office of the CISO Institute: Cybersecurity Essentials</td><td>Cloud Security, Authentication</td><td class="cdate">Sep 2025</td></tr>
+      <tr><td class="cname">Automate Cybersecurity Tasks with Python</td><td>Python, Algorithms</td><td class="cdate">Jul 2025</td></tr>
+      <tr><td class="cname">Sound the Alarm: Detection and Response</td><td>SIEM</td><td class="cdate">Jul 2025</td></tr>
+      <tr><td class="cname">Assets, Threats, and Vulnerabilities</td><td>NIST 800-53, Cryptography</td><td class="cdate">Jul 2025</td></tr>
+      <tr><td class="cname">Connect and Protect: Networks and Network Security</td><td>Network Architecture</td><td class="cdate">May 2025</td></tr>
+      <tr><td class="cname">Play It Safe: Manage Security Risks</td><td>Security Audits</td><td class="cdate">Apr 2025</td></tr>
+      <tr><td class="cname">Foundations of Cybersecurity</td><td>Cybersecurity Fundamentals</td><td class="cdate">Mar 2025</td></tr>
+      <tr><td class="cname">Tools of the Trade: Linux and SQL</td><td>Linux, Bash</td><td class="cdate">Jun 2025</td></tr>
+      <tr><td class="cname">Google Prompting Essentials</td><td>AI, Problem Solving</td><td class="cdate">Aug 2025</td></tr>
+      <tr><td class="cname">Hands-on Quantum Error Correction — Google Quantum AI</td><td>Quantum Computing</td><td class="cdate">Jun 2025</td></tr>
+      <tr><td class="cname">Quantum Computing For Everyone — Fractal</td><td>Quantum Computing</td><td class="cdate">Mar 2025</td></tr>
+      <tr><td class="cname">Crash Course on Python</td><td>Python, Algorithms</td><td class="cdate">Sep 2025</td></tr>
+      <tr><td class="cname">Python Data Structures — University of Michigan</td><td>Data Structures</td><td class="cdate">Jun 2025</td></tr>
+      <tr><td class="cname">Programming for Everybody — University of Michigan</td><td>Python</td><td class="cdate">Apr 2025</td></tr>
+      <tr><td class="cname">Python for Data Science, AI & Development — IBM</td><td>Python</td><td class="cdate">Mar 2025</td></tr>
+      <tr><td class="cname">AI For Everyone — DeepLearning.AI</td><td>Generative AI</td><td class="cdate">Mar 2025</td></tr>
+      <tr><td class="cname">Ethical Hacking Foundations — Packt</td><td>Linux</td><td class="cdate">Jun 2025</td></tr>
+      <tr><td class="cname">Rocket Science for Everyone — Yale University</td><td>Rocket Technology</td><td class="cdate">Mar 2025</td></tr>
+      <tr><td class="cname">Workshop on GR, Cosmology, Astrophysics & Particle Physics — SARL</td><td>Astrophysics</td><td class="cdate">Dec 2024</td></tr>
+      <tr><td class="cname">How to Write a Research Paper — HEC</td><td>Research Skills</td><td class="cdate">Feb 2025</td></tr>
+      <tr><td class="cname">Work Smarter with MS Excel / PowerPoint — Microsoft</td><td>MS Office</td><td class="cdate">Mar 2025</td></tr>
+    </table>
+    <p class="cert-more">Full list with credential IDs available on request or via LinkedIn.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">
+  <div class="divider-track" id="divider4"></div>
+</div>
+
+<section class="section" id="contact">
+  <div class="wrap contact-inner">
+    <div class="eyebrow">Get in touch</div>
+    <h2>Working on something in space,<br>security, or ML? Let's talk.</h2>
+    <div class="contact-links">
+      <a href="mailto:saifgillani3@gmail.com" class="btn btn-primary">saifgillani3@gmail.com</a>
+      <a href="https://www.linkedin.com/in/syed-saif-gillani-309078296/" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+      <a href="#" class="btn btn-ghost" id="github-link">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Syed Saif Gillani — Islamabad, Pakistan · Built & deployed as a static site.
+</footer>
+
+<script>
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.track-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      document.querySelector(`.track-panel[data-panel="${tab.dataset.track}"]`).classList.add('active');
+    });
+  });
+
+  // Divider spectrum bars — deterministic pseudo-random heights so it reads as data, not decoration
+  function seededRandom(seed){ let x = Math.sin(seed)*10000; return x - Math.floor(x); }
+  document.querySelectorAll('.divider-track').forEach((track, ti) => {
+    const barCount = 90;
+    for(let i=0;i<barCount;i++){
+      const bar = document.createElement('div');
+      bar.className = 'divider-bar';
+      const h = 4 + seededRandom(i*7.31 + ti*101) * 40;
+      bar.style.height = h + 'px';
+      const palette = ['#232B3B','#232B3B','#232B3B','#4FD1C5','#9C8FF0','#232B3B'];
+      bar.style.background = palette[Math.floor(seededRandom(i*3.1+ti)*palette.length)];
+      track.appendChild(bar);
+    }
+  });
+</script>
+</body>
+</html>
